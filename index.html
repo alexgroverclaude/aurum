@@ -37,27 +37,6 @@
     color: var(--white);
     font-family: var(--serif);
     overflow-x: hidden;
-    cursor: none;
-  }
-
-  /* Custom cursor */
-  .cursor {
-    position: fixed;
-    width: 8px; height: 8px;
-    background: var(--gold);
-    border-radius: 50%;
-    pointer-events: none;
-    z-index: 9999;
-    transition: transform 0.1s ease;
-  }
-  .cursor-ring {
-    position: fixed;
-    width: 32px; height: 32px;
-    border: 1px solid rgba(201,168,76,0.4);
-    border-radius: 50%;
-    pointer-events: none;
-    z-index: 9998;
-    transition: width 0.2s, height 0.2s;
   }
 
   /* NAV */
@@ -261,16 +240,17 @@
   }
   .hero-chart {
     position: absolute;
-    inset: 0;
+    left: 0; right: 0;
+    top: 72px; bottom: 140px;
     display: flex;
     align-items: flex-end;
-    gap: 3px;
-    padding: 100px 16px 130px;
+    gap: 4px;
+    padding: 0 16px;
     z-index: 1;
   }
   .hero-candle { display: flex; flex-direction: column; align-items: center; flex-shrink: 0; }
-  .hero-wick { width: 1px; background: rgba(255,255,255,0.18); }
-  .hero-body { width: 7px; border-radius: 1px; }
+  .hero-wick { width: 1px; background: rgba(255,255,255,0.22); }
+  .hero-body { width: 8px; border-radius: 1px; }
   .hero-candle.up .hero-body { background: var(--green); }
   .hero-candle.down .hero-body { background: var(--red); }
   .hero-ob {
@@ -766,9 +746,6 @@
 </head>
 <body>
 
-<div class="cursor" id="cursor"></div>
-<div class="cursor-ring" id="cursor-ring"></div>
-
 <!-- NAV -->
 <nav>
   <div class="nav-logo">Aurum</div>
@@ -806,11 +783,11 @@
   <div class="hero-right">
     <div class="hero-right-glow"></div>
     <div class="hero-chart" id="hero-chart"></div>
-    <div class="hero-ob" style="left:24%;top:18%;width:56%;height:27%;"></div>
-    <div class="hero-label ob" style="left:24%;top:13%;">Order Block</div>
-    <div class="hero-fvg" style="left:48%;top:47%;width:36%;height:14%;"></div>
-    <div class="hero-label fvg" style="left:48%;top:42%;">FVG</div>
-    <div class="hero-label bos" style="left:56%;top:38%;">▲ BOS</div>
+    <div class="hero-ob" style="left:14%;bottom:155px;width:60%;height:220px;"></div>
+    <div class="hero-label ob" style="left:14%;bottom:378px;">Order Block</div>
+    <div class="hero-fvg" style="left:52%;bottom:155px;width:34%;height:90px;"></div>
+    <div class="hero-label fvg" style="left:52%;bottom:248px;">FVG</div>
+    <div class="hero-label bos" style="left:58%;bottom:310px;">▲ BOS</div>
     <div class="hero-ticker">
       <div class="ticker-item">
         <div class="live-dot"></div>
@@ -858,42 +835,42 @@
 <section class="detects" id="detects">
   <div class="section-header">
     <div class="section-label">What It Detects</div>
-    <h2 class="section-title">Every confluence,<br><em>automatically</em> mapped.</h2>
+    <h2 class="section-title">Every confluence, <br><em>automatically</em> mapped.</h2>
   </div>
   <div class="detects-grid">
     <div class="detect-card">
       <div class="detect-tag">01 · Sweep</div>
-      <h3 class="detect-title">Liquidity<br><em>Sweeps</em></h3>
+      <h3 class="detect-title">Liquidity <br><em>Sweeps</em></h3>
       <p class="detect-desc">Wicks that push beyond swing highs or lows and close back inside range — a classic sign that smart money has hunted stops before reversing.</p>
       <span class="detect-glyph">Liq. Sweep</span>
     </div>
     <div class="detect-card">
       <div class="detect-tag">02 · Structure</div>
-      <h3 class="detect-title">Break of<br><em>Structure</em></h3>
+      <h3 class="detect-title">Break of <br><em>Structure</em></h3>
       <p class="detect-desc">Bullish BOS when price closes above the last swing high. Bearish BOS below the last swing low. Marks the confirmed shift in market intent.</p>
       <span class="detect-glyph">BOS</span>
     </div>
     <div class="detect-card">
       <div class="detect-tag">03 · Supply / Demand</div>
-      <h3 class="detect-title">Order<br><em>Blocks</em></h3>
+      <h3 class="detect-title">Order <br><em>Blocks</em></h3>
       <p class="detect-desc">The last opposing candle before a BOS. Highlighted on-chart and tracked as price returns to retest — one of the highest-probability entry zones in ICT.</p>
       <span class="detect-glyph">OB</span>
     </div>
     <div class="detect-card">
       <div class="detect-tag">04 · Imbalance</div>
-      <h3 class="detect-title">Fair Value<br><em>Gaps</em></h3>
+      <h3 class="detect-title">Fair Value <br><em>Gaps</em></h3>
       <p class="detect-desc">Three-candle imbalance zones where price moved too fast to fill. Drawn as boxes in real time. Also detects Inverse FVGs when price re-enters a prior gap.</p>
       <span class="detect-glyph">FVG / IFVG</span>
     </div>
     <div class="detect-card">
       <div class="detect-tag">05 · Sessions</div>
-      <h3 class="detect-title">Kill<br><em>Zones</em></h3>
+      <h3 class="detect-title">Kill <br><em>Zones</em></h3>
       <p class="detect-desc">London, New York, and Asian session timing overlays. Setups formed during kill zones carry significantly more weight in the confluence score.</p>
       <span class="detect-glyph">KZ</span>
     </div>
     <div class="detect-card">
       <div class="detect-tag">06 · Context</div>
-      <h3 class="detect-title">Equilibrium<br><em>& Daily Bias</em></h3>
+      <h3 class="detect-title">Equilibrium <br><em>& Daily Bias</em></h3>
       <p class="detect-desc">50% retracement of the last swing range marks equilibrium. Daily bias set by EMA trend direction — so every alert knows the direction of the bigger picture.</p>
       <span class="detect-glyph">EQ / Bias</span>
     </div>
@@ -906,19 +883,19 @@
   <div class="how-steps">
     <div class="step">
       <div class="step-num">01</div>
-      <h4 class="step-title">Add to your<br><em>TradingView</em> chart</h4>
+      <h4 class="step-title">Add to your <br><em>TradingView</em> chart</h4>
       <p class="step-desc">Paste the Pine Script into TradingView's editor and add it to any chart. Works on any market — forex, indices, crypto, stocks — and any timeframe.</p>
       <div class="step-connector"></div>
     </div>
     <div class="step">
       <div class="step-num">02</div>
-      <h4 class="step-title">It scans<br><em>in real time</em></h4>
+      <h4 class="step-title">It scans <br><em>in real time</em></h4>
       <p class="step-desc">Aurum continuously monitors for all 8 confluence types. Each setup is scored 0–5+ based on how many align simultaneously on the same candle.</p>
       <div class="step-connector"></div>
     </div>
     <div class="step">
       <div class="step-num">03</div>
-      <h4 class="step-title">Get alerted<br>when <em>setups form</em></h4>
+      <h4 class="step-title">Get alerted <br>when <em>setups form</em></h4>
       <p class="step-desc">When 3 or more confluences align, TradingView fires an alert. You decide whether to trade — Aurum makes sure you never miss a setup again.</p>
     </div>
   </div>
@@ -968,7 +945,7 @@
 <section class="cta-section" id="access">
   <div class="cta-eyebrow">Early Access · Limited Cohort</div>
   <h2 class="cta-headline">
-    The market never<br><em>waits.</em> Neither should you.
+    The market never <br><em>waits.</em> Neither should you.
   </h2>
   <div class="cta-input-row">
     <input class="cta-input" id="email-input" type="email" placeholder="your@email.com">
@@ -999,42 +976,41 @@
 </footer>
 
 <script>
-  // Custom cursor
-  const cursor = document.getElementById('cursor');
-  const ring = document.getElementById('cursor-ring');
-  let mx = 0, my = 0, rx = 0, ry = 0;
-  document.addEventListener('mousemove', e => {
-    mx = e.clientX; my = e.clientY;
-    cursor.style.left = mx - 4 + 'px';
-    cursor.style.top  = my - 4 + 'px';
-  });
-  function animateRing() {
-    rx += (mx - rx - 16) * 0.12;
-    ry += (my - ry - 16) * 0.12;
-    ring.style.left = rx + 'px';
-    ring.style.top  = ry + 'px';
-    requestAnimationFrame(animateRing);
-  }
-  animateRing();
-  document.querySelectorAll('button, a').forEach(el => {
-    el.addEventListener('mouseenter', () => { ring.style.width = '50px'; ring.style.height = '50px'; });
-    el.addEventListener('mouseleave', () => { ring.style.width = '32px'; ring.style.height = '32px'; });
-  });
 
-  // Draw hero chart candles
+  // Draw hero chart candles with realistic price movement
   (function() {
     const container = document.getElementById('hero-chart');
     if (!container) return;
     const rng = s => { s = Math.sin(s) * 43758.5453; return s - Math.floor(s); };
     const seed = 17;
-    for (let i = 0; i < 36; i++) {
+    const count = 38;
+    // Simulate a price series
+    let price = 40;
+    const prices = [];
+    for (let i = 0; i < count; i++) {
+      price += (rng(seed + i * 2.1) - 0.44) * 6;
+      price = Math.max(10, Math.min(90, price));
+      prices.push(price);
+    }
+    const minP = Math.min(...prices);
+    const maxP = Math.max(...prices);
+    const range = maxP - minP || 1;
+    const panelH = container.offsetHeight || 500;
+
+    for (let i = 0; i < count; i++) {
       const r = rng(seed + i * 7.3);
       const up = r > 0.45;
-      const bodyH = 10 + r * 32;
-      const wickTop = 5 + rng(seed + i * 3.1) * 12;
-      const wickBot = 3 + rng(seed + i * 5.7) * 9;
+      // Body height scales with panel
+      const bodyH = 14 + r * (panelH * 0.12);
+      // Wicks also scale
+      const wickTop = 6 + rng(seed + i * 3.1) * (panelH * 0.04);
+      const wickBot = 4 + rng(seed + i * 5.7) * (panelH * 0.025);
+      // Offset from bottom based on price position
+      const pct = (prices[i] - minP) / range;
+      const marginBottom = pct * (panelH * 0.52);
       const el = document.createElement('div');
       el.className = 'hero-candle ' + (up ? 'up' : 'down');
+      el.style.marginBottom = marginBottom + 'px';
       el.innerHTML = `<div class="hero-wick" style="height:${wickTop}px"></div><div class="hero-body" style="height:${bodyH}px"></div><div class="hero-wick" style="height:${wickBot}px"></div>`;
       container.appendChild(el);
     }
