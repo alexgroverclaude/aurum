@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Terms of Service — Aurum</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=DM+Mono:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  :root {
+    --black: #080808; --off-black: #0e0e0e; --panel: #141414;
+    --border: rgba(255,255,255,0.07); --gold: #C9A84C; --gold-light: #E8C97A;
+    --white: #F5F2EC; --muted: rgba(245,242,236,0.45);
+    --mono: 'DM Mono', monospace; --serif: 'Cormorant Garamond', Georgia, serif;
+  }
+  html { scroll-behavior: smooth; }
+  body { background: var(--black); color: var(--white); font-family: var(--serif); }
+
+  nav {
+    position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 24px 60px; border-bottom: 1px solid var(--border);
+    backdrop-filter: blur(24px); background: rgba(8,8,8,0.8);
+  }
+  .nav-logo {
+    font-family: var(--serif); font-size: 1.3rem; font-weight: 300;
+    letter-spacing: 0.3em; text-transform: uppercase; color: var(--gold);
+    text-decoration: none;
+  }
+  .nav-back {
+    font-family: var(--mono); font-size: 0.64rem; letter-spacing: 0.12em;
+    text-transform: uppercase; color: var(--muted); text-decoration: none;
+    transition: color 0.3s; display: flex; align-items: center; gap: 10px;
+  }
+  .nav-back::before { content: '←'; }
+  .nav-back:hover { color: var(--gold); }
+
+  .page-wrap {
+    max-width: 760px;
+    margin: 0 auto;
+    padding: 160px 40px 120px;
+  }
+
+  .page-eyebrow {
+    font-family: var(--mono); font-size: 0.6rem; letter-spacing: 0.35em;
+    text-transform: uppercase; color: var(--gold);
+    display: flex; align-items: center; gap: 16px; margin-bottom: 28px;
+  }
+  .page-eyebrow::before { content: ''; width: 36px; height: 1px; background: var(--gold); flex-shrink: 0; }
+
+  .page-title {
+    font-size: clamp(2.4rem, 5vw, 4rem); font-weight: 300;
+    line-height: 1.0; letter-spacing: -0.015em; margin-bottom: 12px;
+  }
+  .page-title em { font-style: italic; color: var(--gold); }
+
+  .page-date {
+    font-family: var(--mono); font-size: 0.6rem; color: var(--muted);
+    letter-spacing: 0.1em; margin-bottom: 64px;
+  }
+
+  .divider { height: 1px; background: var(--border); margin: 48px 0; }
+
+  h2 {
+    font-family: var(--serif); font-size: 1.4rem; font-weight: 300;
+    letter-spacing: -0.01em; margin-bottom: 16px; margin-top: 48px;
+    color: var(--white);
+  }
+  h2:first-of-type { margin-top: 0; }
+  h2 em { font-style: italic; color: var(--gold); }
+
+  p {
+    font-family: var(--mono); font-size: 0.68rem; line-height: 1.9;
+    color: var(--muted); margin-bottom: 16px;
+  }
+
+  ul {
+    list-style: none; margin-bottom: 16px;
+  }
+  ul li {
+    font-family: var(--mono); font-size: 0.68rem; line-height: 1.9;
+    color: var(--muted); padding-left: 20px; position: relative;
+  }
+  ul li::before { content: '—'; position: absolute; left: 0; color: var(--gold); }
+
+  a { color: var(--gold); text-decoration: none; }
+  a:hover { text-decoration: underline; }
+
+  .notice {
+    border: 1px solid rgba(201,168,76,0.2); background: rgba(201,168,76,0.04);
+    padding: 20px 24px; margin: 32px 0;
+  }
+  .notice p { margin-bottom: 0; }
+
+  footer {
+    border-top: 1px solid var(--border); padding: 40px 60px;
+    display: flex; align-items: center; justify-content: space-between;
+  }
+  .footer-logo {
+    font-family: var(--serif); font-size: 1rem; font-weight: 300;
+    letter-spacing: 0.3em; text-transform: uppercase; color: var(--gold);
+  }
+  .footer-links { display: flex; gap: 28px; list-style: none; }
+  .footer-links a {
+    font-family: var(--mono); font-size: 0.58rem; letter-spacing: 0.1em;
+    color: var(--muted); text-decoration: none; transition: color 0.3s;
+  }
+  .footer-links a:hover { color: var(--gold); }
+</style>
+</head>
+<body>
+
+<nav>
+  <a class="nav-logo" href="index.html">Aurum</a>
+  <a class="nav-back" href="index.html">Back to site</a>
+</nav>
+
+<div class="page-wrap">
+  <div class="page-eyebrow">Legal</div>
+  <h1 class="page-title">Terms of <em>Service</em></h1>
+  <p class="page-date">Last updated: March 2026</p>
+
+  <div class="divider"></div>
+
+  <div class="notice">
+    <p>Aurum is a software tool, not a financial service. Nothing on this site or within the product constitutes financial advice, investment advice, or a recommendation to trade any asset. Trading involves significant risk of financial loss. You are solely responsible for your trading decisions.</p>
+  </div>
+
+  <h2>1. Acceptance of terms</h2>
+  <p>By accessing this website, joining the waitlist, or purchasing access to Aurum, you agree to these Terms of Service. If you do not agree, do not use the product.</p>
+
+  <h2>2. What <em>Aurum</em> is</h2>
+  <p>Aurum is a Pine Script indicator for TradingView and an optional Python-based automation layer. It detects technical confluences based on ICT / Smart Money Concepts methodology and can send alerts or, in the Autopilot tier, execute trades via broker APIs.</p>
+  <p>Aurum is software sold as-is. It is not a fund, managed account, signal service, or financial adviser. It is not regulated by the FCA, SEC, or any other financial authority.</p>
+
+  <h2>3. No financial advice</h2>
+  <p>Nothing produced by Aurum — including alerts, confluence scores, order blocks, signals, or any other output — constitutes financial advice or a recommendation to buy or sell any asset.</p>
+  <p>Past detection accuracy and backtesting results do not guarantee future performance. Markets are unpredictable. You accept full responsibility for any trades you place, whether manually or via automation.</p>
+
+  <h2>4. Automation and <em>broker integration</em></h2>
+  <p>The Aurum Autopilot tier includes tooling that can execute live trades automatically via broker APIs. By using this feature, you acknowledge:</p>
+  <ul>
+    <li>Automated trading carries the same financial risks as manual trading, potentially amplified by speed and leverage</li>
+    <li>You are responsible for configuring risk parameters, position sizing, and stop-loss levels</li>
+    <li>We are not liable for trades executed, missed, or duplicated due to connectivity issues, latency, broker outages, or bugs in the software</li>
+    <li>You must comply with all applicable laws and your broker's terms of service</li>
+  </ul>
+
+  <h2>5. Licence and permitted use</h2>
+  <p>Purchasing Aurum grants you a personal, non-transferable, non-exclusive licence to use the software for your own trading. You may not:</p>
+  <ul>
+    <li>Resell, sublicence, or redistribute the Pine Script or Python codebase</li>
+    <li>Share access credentials or licence keys with third parties</li>
+    <li>Use Aurum to build or power a competing product or signal service</li>
+    <li>Reverse engineer or strip proprietary logic from the indicator</li>
+  </ul>
+
+  <h2>6. Refund policy</h2>
+  <p>Monthly subscriptions may be cancelled at any time; access continues until the end of the billing period. No pro-rata refunds are issued for partial months.</p>
+  <p>One-time purchases are non-refundable after the Pine Script or codebase has been delivered. If you experience a technical issue preventing the product from functioning, contact us at <a href="mailto:hello@aurum.trade">hello@aurum.trade</a> and we will work to resolve it.</p>
+
+  <h2>7. Limitation of liability</h2>
+  <p>To the fullest extent permitted by applicable law, Aurum and its operator shall not be liable for any direct, indirect, incidental, or consequential losses arising from your use of the software, including but not limited to trading losses, missed trades, or losses resulting from software errors.</p>
+  <p>Our total aggregate liability to you shall not exceed the amount you paid for the product in the 12 months preceding the claim.</p>
+
+  <h2>8. Intellectual property</h2>
+  <p>All Pine Script code, Python code, design assets, and written content on this site are the intellectual property of Aurum's operator. Unauthorised reproduction or redistribution is prohibited.</p>
+
+  <h2>9. Governing law</h2>
+  <p>These terms are governed by the laws of England and Wales. Any disputes shall be subject to the exclusive jurisdiction of the courts of England and Wales.</p>
+
+  <h2>10. Changes to these terms</h2>
+  <p>We may update these terms as the product develops. Continued use of the product after changes are posted constitutes acceptance of the revised terms. Material changes will be communicated to active subscribers by email.</p>
+
+  <h2>Contact</h2>
+  <p>Questions about these terms: <a href="mailto:hello@aurum.trade">hello@aurum.trade</a></p>
+</div>
+
+<footer>
+  <div class="footer-logo">Aurum</div>
+  <ul class="footer-links">
+    <li><a href="privacy.html">Privacy</a></li>
+    <li><a href="terms.html">Terms</a></li>
+    <li><a href="mailto:hello@aurum.trade">Contact</a></li>
+  </ul>
+</footer>
+
+</body>
+</html>
