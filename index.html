@@ -722,9 +722,10 @@
     The market never<br><em>waits.</em> Neither should you.
   </h2>
   <div class="cta-input-row">
-    <input class="cta-input" type="email" placeholder="your@email.com">
-    <button class="cta-submit">Request Access →</button>
+    <input class="cta-input" id="email-input" type="email" placeholder="your@email.com">
+    <button class="cta-submit" id="email-submit">Request Access →</button>
   </div>
+  <div id="email-msg" style="font-family:var(--mono);font-size:0.7rem;margin-top:16px;min-height:1.2em;"></div>
 </section>
 
 <!-- FOOTER -->
@@ -789,6 +790,31 @@
     xauBase += (Math.random() - 0.5) * 0.8;
     xauEl.textContent = xauBase.toFixed(2);
   }, 2000);
+</script>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script>
+  const _supabase = supabase.createClient(
+    'https://natexttghgkkrhxckpbd.supabase.co',
+    'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im5hdGVueHR0aGdra3JoeGNrcGJkIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzQyNzkzNzksImV4cCI6MjA4OTg1NTM3OX0.EB0EhoFjYn_wASwnIkNJktRCAegnfFxe350rNgHvnHc'
+  );
+
+  document.getElementById('email-submit').addEventListener('click', async () => {
+    const email = document.getElementById('email-input').value.trim();
+    const msg = document.getElementById('email-msg');
+    if (!email) { msg.style.color = '#e05555'; msg.textContent = 'Please enter your email.'; return; }
+    const { error } = await _supabase.from('signups').insert([{ email }]);
+    if (error) {
+      if (error.code === '23505') {
+        msg.style.color = 'var(--gold)'; msg.textContent = "You're already on the list.";
+      } else {
+        msg.style.color = '#e05555'; msg.textContent = 'Something went wrong. Please try again.';
+      }
+    } else {
+      msg.style.color = '#4ecb71'; msg.textContent = "You're on the list. We'll be in touch.";
+      document.getElementById('email-input').value = '';
+    }
+  });
 </script>
 </body>
 </html>
