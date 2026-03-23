@@ -4,6 +4,11 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Aurum — ICT / Smart Money TradingView Indicator</title>
+<meta name="description" content="A TradingView Pine Script indicator built on ICT / Smart Money Concepts. Detects liquidity sweeps, order blocks, FVGs and kill zones — and alerts you when setups align.">
+<meta property="og:title" content="Aurum — ICT / Smart Money TradingView Indicator">
+<meta property="og:description" content="Confluences, scored. Setups, delivered. A Pine Script indicator built on ICT / SMC methodology.">
+<meta property="og:type" content="website">
+<meta name="twitter:card" content="summary_large_image">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=DM+Mono:wght@300;400;500&display=swap" rel="stylesheet">
 <style>
@@ -260,7 +265,8 @@
     display: flex;
     align-items: flex-end;
     gap: 3px;
-    padding: 80px 16px 120px;
+    padding: 100px 16px 130px;
+    z-index: 1;
   }
   .hero-candle { display: flex; flex-direction: column; align-items: center; flex-shrink: 0; }
   .hero-wick { width: 1px; background: rgba(255,255,255,0.18); }
@@ -271,11 +277,13 @@
     position: absolute;
     border: 1px solid rgba(201,168,76,0.65);
     background: rgba(201,168,76,0.06);
+    z-index: 2;
   }
   .hero-fvg {
     position: absolute;
     border: 1px solid rgba(78,203,113,0.5);
     background: rgba(78,203,113,0.05);
+    z-index: 2;
   }
   .hero-label {
     position: absolute;
@@ -285,6 +293,7 @@
     text-transform: uppercase;
     padding: 2px 6px;
     pointer-events: none;
+    z-index: 3;
   }
   .hero-label.ob { color: var(--gold); background: rgba(201,168,76,0.1); border: 1px solid rgba(201,168,76,0.25); }
   .hero-label.fvg { color: var(--green); background: rgba(78,203,113,0.08); border: 1px solid rgba(78,203,113,0.2); }
@@ -769,7 +778,7 @@
     <li><a href="#pricing">Pricing</a></li>
     <li><a href="#access">Autopilot</a></li>
   </ul>
-  <button class="nav-cta">Get Early Access</button>
+  <button class="nav-cta" onclick="document.getElementById('access').scrollIntoView({behavior:'smooth'})">Get Early Access</button>
 </nav>
 
 <!-- HERO -->
@@ -786,8 +795,8 @@
       A Pine Script indicator built on ICT / Smart Money Concepts. Detects liquidity sweeps, order blocks, FVGs and kill zones — and alerts you when setups align.
     </p>
     <div class="hero-actions">
-      <button class="btn-primary">Get Early Access</button>
-      <button class="btn-ghost">
+      <button class="btn-primary" onclick="document.getElementById('access').scrollIntoView({behavior:'smooth'})">Get Early Access</button>
+      <button class="btn-ghost" onclick="document.getElementById('how').scrollIntoView({behavior:'smooth'})">
         <span class="arrow"></span>
         See How It Works
       </button>
@@ -933,7 +942,7 @@
         <li>Any market, any timeframe</li>
         <li>Setup guide included</li>
       </ul>
-      <button class="pricing-cta secondary">Join Waitlist</button>
+      <button class="pricing-cta secondary" onclick="document.getElementById('access').scrollIntoView({behavior:'smooth'})">Join Waitlist</button>
     </div>
     <div class="pricing-card featured">
       <div class="pricing-tier">Tier 2</div>
@@ -950,7 +959,7 @@
         <li>Webhook → broker pipeline</li>
         <li>Step-by-step setup guide</li>
       </ul>
-      <button class="pricing-cta primary">Join Waitlist</button>
+      <button class="pricing-cta primary" onclick="document.getElementById('access').scrollIntoView({behavior:'smooth'})">Join Waitlist</button>
     </div>
   </div>
 </section>
