@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Aurum — Automated Investing</title>
+<title>Aurum — ICT / Smart Money TradingView Indicator</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=DM+Mono:wght@300;400;500&display=swap" rel="stylesheet">
 <style>
@@ -11,14 +11,16 @@
 
   :root {
     --black: #080808;
-    --off-black: #111111;
+    --off-black: #0e0e0e;
     --panel: #141414;
     --border: rgba(255,255,255,0.07);
     --gold: #C9A84C;
     --gold-light: #E8C97A;
-    --gold-dim: rgba(201,168,76,0.15);
+    --gold-dim: rgba(201,168,76,0.12);
     --white: #F5F2EC;
     --muted: rgba(245,242,236,0.45);
+    --green: #4ecb71;
+    --red: #e05555;
     --mono: 'DM Mono', monospace;
     --serif: 'Cormorant Garamond', Georgia, serif;
   }
@@ -42,7 +44,6 @@
     pointer-events: none;
     z-index: 9999;
     transition: transform 0.1s ease;
-    mix-blend-mode: normal;
   }
   .cursor-ring {
     position: fixed;
@@ -51,7 +52,7 @@
     border-radius: 50%;
     pointer-events: none;
     z-index: 9998;
-    transition: transform 0.25s ease, width 0.2s, height 0.2s;
+    transition: width 0.2s, height 0.2s;
   }
 
   /* NAV */
@@ -61,25 +62,25 @@
     display: flex;
     align-items: center;
     justify-content: space-between;
-    padding: 28px 60px;
+    padding: 24px 60px;
     border-bottom: 1px solid var(--border);
-    backdrop-filter: blur(20px);
-    background: rgba(8,8,8,0.6);
+    backdrop-filter: blur(24px);
+    background: rgba(8,8,8,0.8);
   }
   .nav-logo {
     font-family: var(--serif);
-    font-size: 1.35rem;
+    font-size: 1.3rem;
     font-weight: 300;
-    letter-spacing: 0.25em;
+    letter-spacing: 0.3em;
     text-transform: uppercase;
     color: var(--gold);
   }
   .nav-links {
-    display: flex; gap: 48px; list-style: none;
+    display: flex; gap: 44px; list-style: none;
   }
   .nav-links a {
     font-family: var(--mono);
-    font-size: 0.68rem;
+    font-size: 0.66rem;
     letter-spacing: 0.15em;
     text-transform: uppercase;
     color: var(--muted);
@@ -89,13 +90,13 @@
   .nav-links a:hover { color: var(--gold); }
   .nav-cta {
     font-family: var(--mono);
-    font-size: 0.68rem;
+    font-size: 0.66rem;
     letter-spacing: 0.12em;
     text-transform: uppercase;
     color: var(--black);
     background: var(--gold);
     border: none;
-    padding: 10px 24px;
+    padding: 10px 22px;
     cursor: none;
     transition: background 0.3s;
   }
@@ -109,26 +110,34 @@
     grid-template-columns: 1fr 1fr;
     overflow: hidden;
   }
-
-  /* Grid overlay */
   .hero::before {
     content: '';
     position: absolute; inset: 0;
     background-image:
-      linear-gradient(rgba(255,255,255,0.025) 1px, transparent 1px),
-      linear-gradient(90deg, rgba(255,255,255,0.025) 1px, transparent 1px);
-    background-size: 80px 80px;
+      linear-gradient(rgba(255,255,255,0.018) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(255,255,255,0.018) 1px, transparent 1px);
+    background-size: 64px 64px;
     pointer-events: none;
+    z-index: 0;
   }
 
+  .hero-left {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding: 120px 64px 80px;
+    border-right: 1px solid var(--border);
+    position: relative;
+    z-index: 1;
+  }
 
   .hero-eyebrow {
     font-family: var(--mono);
-    font-size: 0.65rem;
-    letter-spacing: 0.3em;
+    font-size: 0.62rem;
+    letter-spacing: 0.35em;
     text-transform: uppercase;
     color: var(--gold);
-    margin-bottom: 32px;
+    margin-bottom: 36px;
     opacity: 0;
     animation: fadeUp 0.8s ease forwards 0.2s;
     display: flex; align-items: center; gap: 16px;
@@ -136,57 +145,56 @@
   .hero-eyebrow::before {
     content: '';
     display: block;
-    width: 40px; height: 1px;
+    width: 36px; height: 1px;
     background: var(--gold);
+    flex-shrink: 0;
   }
 
   .hero-headline {
-    font-size: clamp(3.5rem, 8vw, 8.5rem);
+    font-size: clamp(3.2rem, 6vw, 7rem);
     font-weight: 300;
-    line-height: 0.95;
-    letter-spacing: -0.01em;
-    margin-bottom: 48px;
+    line-height: 0.93;
+    letter-spacing: -0.015em;
+    margin-bottom: 40px;
   }
-  .hero-headline em {
-    font-style: italic;
-    color: var(--gold);
-  }
+  .hero-headline em { font-style: italic; color: var(--gold); }
   .hero-headline .line {
     display: block;
     opacity: 0;
-    transform: translateY(30px);
+    transform: translateY(28px);
   }
-  .hero-headline .line:nth-child(1) { animation: fadeUp 0.9s cubic-bezier(0.16,1,0.3,1) forwards 0.4s; }
-  .hero-headline .line:nth-child(2) { animation: fadeUp 0.9s cubic-bezier(0.16,1,0.3,1) forwards 0.55s; }
-  .hero-headline .line:nth-child(3) { animation: fadeUp 0.9s cubic-bezier(0.16,1,0.3,1) forwards 0.7s; }
-  .hero-headline .line:nth-child(4) { animation: fadeUp 0.9s cubic-bezier(0.16,1,0.3,1) forwards 0.85s; }
+  .hero-headline .line:nth-child(1) { animation: fadeUp 0.9s cubic-bezier(0.16,1,0.3,1) forwards 0.35s; }
+  .hero-headline .line:nth-child(2) { animation: fadeUp 0.9s cubic-bezier(0.16,1,0.3,1) forwards 0.5s; }
+  .hero-headline .line:nth-child(3) { animation: fadeUp 0.9s cubic-bezier(0.16,1,0.3,1) forwards 0.65s; }
+  .hero-headline .line:nth-child(4) { animation: fadeUp 0.9s cubic-bezier(0.16,1,0.3,1) forwards 0.8s; }
 
   .hero-sub {
     font-family: var(--mono);
-    font-size: 0.78rem;
-    line-height: 1.8;
+    font-size: 0.74rem;
+    line-height: 1.85;
     color: var(--muted);
-    max-width: 420px;
-    margin-bottom: 52px;
+    max-width: 400px;
+    margin-bottom: 48px;
     letter-spacing: 0.03em;
     opacity: 0;
-    animation: fadeUp 0.8s ease forwards 0.9s;
+    animation: fadeUp 0.8s ease forwards 1.0s;
   }
 
   .hero-actions {
-    display: flex; align-items: center; gap: 32px;
+    display: flex; align-items: center; gap: 28px;
     opacity: 0;
-    animation: fadeUp 0.8s ease forwards 1.1s;
+    animation: fadeUp 0.8s ease forwards 1.15s;
   }
+
   .btn-primary {
     font-family: var(--mono);
-    font-size: 0.7rem;
+    font-size: 0.68rem;
     letter-spacing: 0.15em;
     text-transform: uppercase;
     color: var(--black);
     background: var(--gold);
     border: none;
-    padding: 16px 36px;
+    padding: 15px 32px;
     cursor: none;
     position: relative;
     overflow: hidden;
@@ -204,7 +212,7 @@
 
   .btn-ghost {
     font-family: var(--mono);
-    font-size: 0.7rem;
+    font-size: 0.68rem;
     letter-spacing: 0.15em;
     text-transform: uppercase;
     color: var(--muted);
@@ -231,20 +239,20 @@
     transform: rotate(45deg);
   }
 
-  /* Hero split panels */
-  .hero-left {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    padding: 120px 60px 80px;
-    border-right: 1px solid var(--border);
-    position: relative;
-    z-index: 1;
-  }
+  /* HERO RIGHT */
   .hero-right {
     position: relative;
     overflow: hidden;
-    background: #080d08;
+    background: #060c06;
+  }
+  .hero-right::before {
+    content: '';
+    position: absolute; inset: 0;
+    background-image:
+      linear-gradient(rgba(78,203,113,0.012) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(78,203,113,0.012) 1px, transparent 1px);
+    background-size: 40px 40px;
+    pointer-events: none;
   }
   .hero-chart {
     position: absolute;
@@ -252,41 +260,45 @@
     display: flex;
     align-items: flex-end;
     gap: 3px;
-    padding: 80px 14px 120px;
+    padding: 80px 16px 120px;
   }
   .hero-candle { display: flex; flex-direction: column; align-items: center; flex-shrink: 0; }
-  .hero-wick { width: 1px; background: rgba(255,255,255,0.25); }
+  .hero-wick { width: 1px; background: rgba(255,255,255,0.18); }
   .hero-body { width: 7px; border-radius: 1px; }
-  .hero-candle.up .hero-body { background: #4ecb71; }
-  .hero-candle.down .hero-body { background: #e05555; }
+  .hero-candle.up .hero-body { background: var(--green); }
+  .hero-candle.down .hero-body { background: var(--red); }
   .hero-ob {
     position: absolute;
     border: 1px solid rgba(201,168,76,0.65);
-    background: rgba(201,168,76,0.07);
+    background: rgba(201,168,76,0.06);
   }
   .hero-fvg {
     position: absolute;
-    border: 1px solid rgba(78,203,113,0.45);
-    background: rgba(78,203,113,0.06);
+    border: 1px solid rgba(78,203,113,0.5);
+    background: rgba(78,203,113,0.05);
   }
-  .hero-bos {
+  .hero-label {
     position: absolute;
     font-family: var(--mono);
-    font-size: 0.52rem;
-    letter-spacing: 0.1em;
-    color: #4ecb71;
-  }
-  .hero-right-glow {
-    position: absolute;
-    top: 10%; left: 5%;
-    width: 500px; height: 500px;
-    background: radial-gradient(circle, rgba(201,168,76,0.07) 0%, transparent 65%);
+    font-size: 0.48rem;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    padding: 2px 6px;
     pointer-events: none;
   }
-  /* Ticker strip inside right panel */
+  .hero-label.ob { color: var(--gold); background: rgba(201,168,76,0.1); border: 1px solid rgba(201,168,76,0.25); }
+  .hero-label.fvg { color: var(--green); background: rgba(78,203,113,0.08); border: 1px solid rgba(78,203,113,0.2); }
+  .hero-label.bos { color: var(--green); }
+  .hero-right-glow {
+    position: absolute;
+    top: 15%; left: 10%;
+    width: 420px; height: 420px;
+    background: radial-gradient(circle, rgba(201,168,76,0.06) 0%, transparent 65%);
+    pointer-events: none;
+  }
   .hero-ticker {
     position: absolute;
-    bottom: 28px; left: 20px; right: 20px;
+    bottom: 24px; left: 16px; right: 16px;
     display: flex; flex-direction: column; gap: 8px;
     opacity: 0;
     animation: fadeUp 0.8s ease forwards 1.4s;
@@ -294,203 +306,350 @@
   .ticker-item {
     display: flex;
     align-items: center;
-    gap: 16px;
-    background: var(--panel);
+    gap: 14px;
+    background: rgba(8,8,8,0.88);
     border: 1px solid var(--border);
-    padding: 14px 20px;
+    padding: 12px 18px;
+    backdrop-filter: blur(8px);
   }
   .ticker-symbol {
     font-family: var(--mono);
-    font-size: 0.65rem;
+    font-size: 0.62rem;
     letter-spacing: 0.1em;
     color: var(--muted);
   }
   .ticker-val {
     font-family: var(--mono);
-    font-size: 0.8rem;
+    font-size: 0.78rem;
     color: var(--white);
     margin-left: auto;
   }
   .ticker-change {
     font-family: var(--mono);
-    font-size: 0.65rem;
-    padding: 2px 8px;
+    font-size: 0.6rem;
+    padding: 2px 7px;
   }
-  .ticker-change.up { color: #4ecb71; background: rgba(78,203,113,0.1); }
-  .ticker-change.down { color: #e05555; background: rgba(224,85,85,0.1); }
+  .ticker-change.up { color: var(--green); background: rgba(78,203,113,0.1); }
+  .ticker-change.down { color: var(--red); background: rgba(224,85,85,0.1); }
+  .live-dot {
+    width: 5px; height: 5px;
+    background: var(--green);
+    border-radius: 50%;
+    animation: pulse 2s ease-in-out infinite;
+    flex-shrink: 0;
+  }
 
-  /* STATS STRIP */
-  .stats-strip {
+  /* MARQUEE */
+  .marquee-wrap {
     border-top: 1px solid var(--border);
     border-bottom: 1px solid var(--border);
-    display: grid;
-    grid-template-columns: repeat(4, 1fr);
     background: var(--panel);
+    overflow: hidden;
+    padding: 17px 0;
+    position: relative;
   }
-  .stat-cell {
-    padding: 44px 60px;
+  .marquee-wrap::before,
+  .marquee-wrap::after {
+    content: '';
+    position: absolute; top: 0; bottom: 0;
+    width: 100px;
+    z-index: 2;
+    pointer-events: none;
+  }
+  .marquee-wrap::before { left: 0; background: linear-gradient(to right, var(--panel), transparent); }
+  .marquee-wrap::after  { right: 0; background: linear-gradient(to left, var(--panel), transparent); }
+  .marquee-track {
+    display: flex;
+    animation: marquee 30s linear infinite;
+    width: max-content;
+  }
+  .marquee-item {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 0 36px;
     border-right: 1px solid var(--border);
+    white-space: nowrap;
   }
-  .stat-cell:last-child { border-right: none; }
-  .stat-num {
-    font-size: 3.2rem;
-    font-weight: 300;
-    letter-spacing: -0.02em;
-    color: var(--white);
-    line-height: 1;
-    margin-bottom: 8px;
-  }
-  .stat-num span { color: var(--gold); }
-  .stat-label {
+  .m-dot { width: 4px; height: 4px; background: var(--gold); border-radius: 50%; flex-shrink: 0; }
+  .m-label {
     font-family: var(--mono);
-    font-size: 0.62rem;
-    letter-spacing: 0.2em;
+    font-size: 0.58rem;
+    letter-spacing: 0.22em;
     text-transform: uppercase;
     color: var(--muted);
   }
+  @keyframes marquee {
+    from { transform: translateX(0); }
+    to   { transform: translateX(-50%); }
+  }
 
-  /* FEATURES */
-  .features {
-    padding: 120px 60px;
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 1px;
-    background: var(--border);
-  }
-  .feature-card {
-    background: var(--black);
-    padding: 64px;
-    position: relative;
-    overflow: hidden;
-    transition: background 0.4s;
-  }
-  .feature-card:hover { background: var(--panel); }
-  .feature-card::before {
-    content: '';
-    position: absolute;
-    top: 0; left: 0;
-    width: 3px; height: 0;
-    background: var(--gold);
-    transition: height 0.4s ease;
-  }
-  .feature-card:hover::before { height: 100%; }
-  .feature-num {
-    font-family: var(--mono);
-    font-size: 0.6rem;
-    letter-spacing: 0.2em;
-    color: var(--gold);
-    margin-bottom: 40px;
-  }
-  .feature-title {
-    font-size: 2.2rem;
-    font-weight: 300;
-    line-height: 1.15;
-    margin-bottom: 20px;
-    letter-spacing: -0.01em;
-  }
-  .feature-title em { font-style: italic; color: var(--gold); }
-  .feature-desc {
-    font-family: var(--mono);
-    font-size: 0.72rem;
-    line-height: 1.8;
-    color: var(--muted);
-    letter-spacing: 0.02em;
-  }
-  .feature-icon {
-    position: absolute;
-    bottom: 40px; right: 48px;
-    font-size: 4rem;
-    opacity: 0.04;
-    transition: opacity 0.4s;
-    pointer-events: none;
-  }
-  .feature-card:hover .feature-icon { opacity: 0.09; }
-
-  /* HOW IT WORKS */
-  .how {
-    padding: 120px 60px;
-    border-top: 1px solid var(--border);
-  }
+  /* SECTION LABEL */
   .section-label {
     font-family: var(--mono);
-    font-size: 0.62rem;
+    font-size: 0.6rem;
     letter-spacing: 0.35em;
     text-transform: uppercase;
     color: var(--gold);
-    margin-bottom: 64px;
     display: flex; align-items: center; gap: 16px;
   }
   .section-label::before {
     content: '';
-    width: 40px; height: 1px;
+    width: 36px; height: 1px;
     background: var(--gold);
+    flex-shrink: 0;
   }
+
+  /* DETECTS */
+  .detects {
+    padding: 100px 60px;
+    border-bottom: 1px solid var(--border);
+  }
+  .section-header {
+    display: flex;
+    align-items: flex-end;
+    justify-content: space-between;
+    margin-bottom: 60px;
+  }
+  .section-title {
+    font-size: clamp(1.8rem, 3.5vw, 3.2rem);
+    font-weight: 300;
+    line-height: 1.05;
+    letter-spacing: -0.02em;
+    max-width: 440px;
+    text-align: right;
+  }
+  .section-title em { font-style: italic; color: var(--gold); }
+
+  .detects-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1px;
+    background: var(--border);
+  }
+  .detect-card {
+    background: var(--black);
+    padding: 44px 36px;
+    position: relative;
+    overflow: hidden;
+    transition: background 0.35s;
+  }
+  .detect-card:hover { background: var(--off-black); }
+  .detect-card::after {
+    content: '';
+    position: absolute;
+    bottom: 0; left: 0; right: 0;
+    height: 1px;
+    background: linear-gradient(to right, transparent, var(--gold), transparent);
+    transform: scaleX(0);
+    transition: transform 0.4s ease;
+  }
+  .detect-card:hover::after { transform: scaleX(1); }
+  .detect-tag {
+    font-family: var(--mono);
+    font-size: 0.54rem;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    color: var(--gold);
+    background: var(--gold-dim);
+    border: 1px solid rgba(201,168,76,0.18);
+    padding: 3px 9px;
+    display: inline-block;
+    margin-bottom: 22px;
+  }
+  .detect-title {
+    font-size: 1.55rem;
+    font-weight: 300;
+    line-height: 1.1;
+    margin-bottom: 14px;
+    letter-spacing: -0.01em;
+  }
+  .detect-title em { font-style: italic; color: var(--gold); }
+  .detect-desc {
+    font-family: var(--mono);
+    font-size: 0.66rem;
+    line-height: 1.82;
+    color: var(--muted);
+  }
+  .detect-glyph {
+    position: absolute;
+    bottom: 20px; right: 24px;
+    font-family: var(--mono);
+    font-size: 0.48rem;
+    letter-spacing: 0.12em;
+    color: rgba(201,168,76,0.18);
+    text-transform: uppercase;
+  }
+
+  /* HOW IT WORKS */
+  .how {
+    padding: 100px 60px;
+    border-bottom: 1px solid var(--border);
+  }
+  .how .section-label { margin-bottom: 60px; }
   .how-steps {
     display: grid;
     grid-template-columns: repeat(3, 1fr);
-    gap: 0;
     border: 1px solid var(--border);
   }
   .step {
-    padding: 56px 48px;
+    padding: 52px 44px;
     border-right: 1px solid var(--border);
     position: relative;
   }
   .step:last-child { border-right: none; }
   .step-num {
-    font-size: 5rem;
+    font-size: 4.5rem;
     font-weight: 300;
-    color: rgba(201,168,76,0.12);
+    color: rgba(201,168,76,0.1);
     line-height: 1;
-    margin-bottom: 28px;
+    margin-bottom: 24px;
     letter-spacing: -0.04em;
   }
   .step-title {
-    font-size: 1.5rem;
+    font-size: 1.45rem;
     font-weight: 300;
-    margin-bottom: 16px;
+    margin-bottom: 14px;
     letter-spacing: -0.01em;
+    line-height: 1.15;
   }
+  .step-title em { font-style: italic; color: var(--gold); }
   .step-desc {
     font-family: var(--mono);
-    font-size: 0.7rem;
-    line-height: 1.8;
+    font-size: 0.67rem;
+    line-height: 1.85;
     color: var(--muted);
   }
   .step-connector {
     position: absolute;
     top: 50%; right: -1px;
-    width: 20px; height: 1px;
+    width: 18px; height: 1px;
     background: var(--gold);
     transform: translateY(-50%);
     z-index: 2;
   }
-  .step:last-child .step-connector { display: none; }
+
+  /* PRICING */
+  .pricing {
+    padding: 100px 60px;
+    border-bottom: 1px solid var(--border);
+    background: var(--off-black);
+  }
+  .pricing .section-label { margin-bottom: 60px; }
+  .pricing-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1px;
+    background: var(--border);
+    max-width: 880px;
+  }
+  .pricing-card {
+    background: var(--black);
+    padding: 52px 48px;
+    position: relative;
+  }
+  .pricing-card.featured { background: var(--panel); }
+  .pricing-card.featured::before {
+    content: 'Most Popular';
+    position: absolute; top: 0; right: 0;
+    font-family: var(--mono);
+    font-size: 0.48rem;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    background: var(--gold);
+    color: var(--black);
+    padding: 5px 12px;
+  }
+  .pricing-tier {
+    font-family: var(--mono);
+    font-size: 0.58rem;
+    letter-spacing: 0.25em;
+    text-transform: uppercase;
+    color: var(--gold);
+    margin-bottom: 10px;
+  }
+  .pricing-name {
+    font-size: 2rem;
+    font-weight: 300;
+    letter-spacing: -0.01em;
+    margin-bottom: 10px;
+  }
+  .pricing-name em { font-style: italic; color: var(--gold); }
+  .pricing-tagline {
+    font-family: var(--mono);
+    font-size: 0.63rem;
+    color: var(--muted);
+    margin-bottom: 32px;
+    line-height: 1.7;
+  }
+  .pricing-amount {
+    font-size: 2.8rem;
+    font-weight: 300;
+    letter-spacing: -0.02em;
+    line-height: 1;
+    margin-bottom: 4px;
+  }
+  .pricing-amount .currency { font-size: 1.2rem; vertical-align: top; margin-top: 6px; display: inline-block; color: var(--muted); }
+  .pricing-amount .period { font-family: var(--mono); font-size: 0.62rem; color: var(--muted); letter-spacing: 0.1em; }
+  .pricing-alt {
+    font-family: var(--mono);
+    font-size: 0.58rem;
+    color: var(--muted);
+    margin-bottom: 32px;
+  }
+  .pricing-divider { height: 1px; background: var(--border); margin: 24px 0; }
+  .pricing-features {
+    list-style: none;
+    display: flex; flex-direction: column; gap: 11px;
+    margin-bottom: 32px;
+  }
+  .pricing-features li {
+    font-family: var(--mono);
+    font-size: 0.63rem;
+    color: var(--muted);
+    display: flex; align-items: flex-start; gap: 10px;
+    line-height: 1.5;
+  }
+  .pricing-features li::before { content: '—'; color: var(--gold); flex-shrink: 0; }
+  .pricing-cta {
+    width: 100%;
+    font-family: var(--mono);
+    font-size: 0.63rem;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    padding: 13px;
+    border: none;
+    cursor: none;
+    transition: background 0.3s, border-color 0.3s, color 0.3s;
+  }
+  .pricing-cta.primary { background: var(--gold); color: var(--black); }
+  .pricing-cta.primary:hover { background: var(--gold-light); }
+  .pricing-cta.secondary { background: transparent; color: var(--muted); border: 1px solid var(--border); }
+  .pricing-cta.secondary:hover { border-color: var(--gold); color: var(--gold); }
 
   /* CTA SECTION */
   .cta-section {
     padding: 140px 60px;
-    border-top: 1px solid var(--border);
+    border-bottom: 1px solid var(--border);
     text-align: center;
     position: relative;
     overflow: hidden;
   }
   .cta-section::before {
     content: '';
-    position: absolute;
-    top: 50%; left: 50%;
+    position: absolute; top: 50%; left: 50%;
     transform: translate(-50%, -50%);
-    width: 600px; height: 600px;
-    background: radial-gradient(circle, rgba(201,168,76,0.06) 0%, transparent 70%);
+    width: 700px; height: 700px;
+    background: radial-gradient(circle, rgba(201,168,76,0.05) 0%, transparent 65%);
     pointer-events: none;
   }
   .cta-eyebrow {
     font-family: var(--mono);
-    font-size: 0.62rem;
+    font-size: 0.6rem;
     letter-spacing: 0.3em;
     text-transform: uppercase;
     color: var(--gold);
-    margin-bottom: 32px;
+    margin-bottom: 28px;
   }
   .cta-headline {
     font-size: clamp(2.5rem, 5vw, 5.5rem);
@@ -504,7 +663,6 @@
   .cta-input-row {
     display: flex;
     justify-content: center;
-    gap: 0;
     max-width: 480px;
     margin: 0 auto;
   }
@@ -515,9 +673,9 @@
     border-right: none;
     color: var(--white);
     font-family: var(--mono);
-    font-size: 0.72rem;
+    font-size: 0.7rem;
     letter-spacing: 0.05em;
-    padding: 16px 20px;
+    padding: 15px 20px;
     outline: none;
     transition: border-color 0.3s;
   }
@@ -525,13 +683,13 @@
   .cta-input::placeholder { color: var(--muted); }
   .cta-submit {
     font-family: var(--mono);
-    font-size: 0.68rem;
+    font-size: 0.65rem;
     letter-spacing: 0.15em;
     text-transform: uppercase;
     color: var(--black);
     background: var(--gold);
     border: none;
-    padding: 16px 28px;
+    padding: 15px 28px;
     cursor: none;
     transition: background 0.3s;
     white-space: nowrap;
@@ -541,24 +699,49 @@
   /* FOOTER */
   footer {
     border-top: 1px solid var(--border);
-    padding: 40px 60px;
+    padding: 52px 60px 40px;
+  }
+  .footer-top {
     display: flex;
-    align-items: center;
+    align-items: flex-start;
     justify-content: space-between;
+    margin-bottom: 36px;
   }
   .footer-logo {
     font-family: var(--serif);
-    font-size: 1rem;
+    font-size: 1.1rem;
     font-weight: 300;
     letter-spacing: 0.3em;
     text-transform: uppercase;
     color: var(--gold);
   }
-  .footer-copy {
+  .footer-links {
+    display: flex; gap: 32px; list-style: none;
+  }
+  .footer-links a {
     font-family: var(--mono);
-    font-size: 0.6rem;
+    font-size: 0.58rem;
     letter-spacing: 0.1em;
     color: var(--muted);
+    text-decoration: none;
+    transition: color 0.3s;
+  }
+  .footer-links a:hover { color: var(--gold); }
+  .footer-divider { height: 1px; background: var(--border); margin-bottom: 28px; }
+  .footer-disclaimer {
+    font-family: var(--mono);
+    font-size: 0.56rem;
+    line-height: 1.95;
+    color: rgba(245,242,236,0.22);
+    max-width: 860px;
+  }
+  .footer-disclaimer p + p { margin-top: 4px; }
+  .footer-bottom {
+    margin-top: 28px;
+    font-family: var(--mono);
+    font-size: 0.56rem;
+    color: rgba(245,242,236,0.18);
+    letter-spacing: 0.1em;
   }
 
   /* ANIMATIONS */
@@ -566,18 +749,9 @@
     from { opacity: 0; transform: translateY(24px); }
     to   { opacity: 1; transform: translateY(0); }
   }
-
-  /* Ticker pulse */
   @keyframes pulse {
     0%, 100% { opacity: 1; }
-    50% { opacity: 0.4; }
-  }
-  .live-dot {
-    width: 6px; height: 6px;
-    background: #4ecb71;
-    border-radius: 50%;
-    animation: pulse 2s ease-in-out infinite;
-    flex-shrink: 0;
+    50% { opacity: 0.35; }
   }
 </style>
 </head>
@@ -590,12 +764,12 @@
 <nav>
   <div class="nav-logo">Aurum</div>
   <ul class="nav-links">
-    <li><a href="#">Platform</a></li>
-    <li><a href="#">Strategies</a></li>
-    <li><a href="#">Performance</a></li>
-    <li><a href="#">Pricing</a></li>
+    <li><a href="#detects">Signals</a></li>
+    <li><a href="#how">How It Works</a></li>
+    <li><a href="#pricing">Pricing</a></li>
+    <li><a href="#access">Autopilot</a></li>
   </ul>
-  <button class="nav-cta">Get Access</button>
+  <button class="nav-cta">Get Early Access</button>
 </nav>
 
 <!-- HERO -->
@@ -623,9 +797,11 @@
   <div class="hero-right">
     <div class="hero-right-glow"></div>
     <div class="hero-chart" id="hero-chart"></div>
-    <div class="hero-ob" style="left:26%;top:20%;width:54%;height:26%;"></div>
-    <div class="hero-fvg" style="left:50%;top:48%;width:34%;height:15%;"></div>
-    <div class="hero-bos" style="left:54%;top:42%;">▲ BOS</div>
+    <div class="hero-ob" style="left:24%;top:18%;width:56%;height:27%;"></div>
+    <div class="hero-label ob" style="left:24%;top:13%;">Order Block</div>
+    <div class="hero-fvg" style="left:48%;top:47%;width:36%;height:14%;"></div>
+    <div class="hero-label fvg" style="left:48%;top:42%;">FVG</div>
+    <div class="hero-label bos" style="left:56%;top:38%;">▲ BOS</div>
     <div class="hero-ticker">
       <div class="ticker-item">
         <div class="live-dot"></div>
@@ -633,7 +809,7 @@
         <span class="ticker-val">2342.10</span>
         <span class="ticker-change up">+0.8%</span>
       </div>
-      <div class="ticker-item" style="border-color:rgba(201,168,76,0.3);">
+      <div class="ticker-item" style="border-color:rgba(201,168,76,0.25);">
         <div class="live-dot"></div>
         <span class="ticker-symbol">⚡ Confluences</span>
         <span class="ticker-val" style="color:var(--gold)">4 / 5</span>
@@ -643,80 +819,144 @@
   </div>
 </section>
 
-<!-- STATS STRIP -->
-<div class="stats-strip">
-  <div class="stat-cell">
-    <div class="stat-num">$2.4<span>B</span></div>
-    <div class="stat-label">Assets Automated</div>
-  </div>
-  <div class="stat-cell">
-    <div class="stat-num">94<span>%</span></div>
-    <div class="stat-label">Win Rate · 12mo</div>
-  </div>
-  <div class="stat-cell">
-    <div class="stat-num">0.3<span>ms</span></div>
-    <div class="stat-label">Execution Latency</div>
-  </div>
-  <div class="stat-cell">
-    <div class="stat-num">18<span>k+</span></div>
-    <div class="stat-label">Active Portfolios</div>
+<!-- MARQUEE -->
+<div class="marquee-wrap">
+  <div class="marquee-track">
+    <div class="marquee-item"><span class="m-dot"></span><span class="m-label">Liquidity Sweeps</span></div>
+    <div class="marquee-item"><span class="m-dot"></span><span class="m-label">Break of Structure</span></div>
+    <div class="marquee-item"><span class="m-dot"></span><span class="m-label">Order Blocks</span></div>
+    <div class="marquee-item"><span class="m-dot"></span><span class="m-label">Fair Value Gaps</span></div>
+    <div class="marquee-item"><span class="m-dot"></span><span class="m-label">Kill Zones</span></div>
+    <div class="marquee-item"><span class="m-dot"></span><span class="m-label">Equilibrium</span></div>
+    <div class="marquee-item"><span class="m-dot"></span><span class="m-label">Daily Bias</span></div>
+    <div class="marquee-item"><span class="m-dot"></span><span class="m-label">Inverse FVGs</span></div>
+    <div class="marquee-item"><span class="m-dot"></span><span class="m-label">Confluence Scoring</span></div>
+    <div class="marquee-item"><span class="m-dot"></span><span class="m-label">Real-Time Alerts</span></div>
+    <div class="marquee-item"><span class="m-dot"></span><span class="m-label">Liquidity Sweeps</span></div>
+    <div class="marquee-item"><span class="m-dot"></span><span class="m-label">Break of Structure</span></div>
+    <div class="marquee-item"><span class="m-dot"></span><span class="m-label">Order Blocks</span></div>
+    <div class="marquee-item"><span class="m-dot"></span><span class="m-label">Fair Value Gaps</span></div>
+    <div class="marquee-item"><span class="m-dot"></span><span class="m-label">Kill Zones</span></div>
+    <div class="marquee-item"><span class="m-dot"></span><span class="m-label">Equilibrium</span></div>
+    <div class="marquee-item"><span class="m-dot"></span><span class="m-label">Daily Bias</span></div>
+    <div class="marquee-item"><span class="m-dot"></span><span class="m-label">Inverse FVGs</span></div>
+    <div class="marquee-item"><span class="m-dot"></span><span class="m-label">Confluence Scoring</span></div>
+    <div class="marquee-item"><span class="m-dot"></span><span class="m-label">Real-Time Alerts</span></div>
   </div>
 </div>
 
-<!-- FEATURES -->
-<section class="features">
-  <div class="feature-card">
-    <div class="feature-num">01 / Strategy</div>
-    <h3 class="feature-title">Quant-grade <em>signals,</em><br>zero guesswork.</h3>
-    <p class="feature-desc">Deploy proven algorithmic strategies built on momentum, mean-reversion, and macro signals. No discretionary bias. Pure systematic execution.</p>
-    <div class="feature-icon">⚡</div>
+<!-- WHAT IT DETECTS -->
+<section class="detects" id="detects">
+  <div class="section-header">
+    <div class="section-label">What It Detects</div>
+    <h2 class="section-title">Every confluence,<br><em>automatically</em> mapped.</h2>
   </div>
-  <div class="feature-card">
-    <div class="feature-num">02 / Risk</div>
-    <h3 class="feature-title">Dynamic <em>risk</em><br>at every tick.</h3>
-    <p class="feature-desc">Real-time drawdown protection, position sizing based on volatility, and automatic de-risking when market regimes shift. Your downside, managed.</p>
-    <div class="feature-icon">🛡</div>
-  </div>
-  <div class="feature-card">
-    <div class="feature-num">03 / Execution</div>
-    <h3 class="feature-title">Millisecond<br><em>precision</em> entries.</h3>
-    <p class="feature-desc">Co-located execution infrastructure routes orders with institutional-grade speed. Trailing stops, bracket orders, and VWAP slicing — fully automated.</p>
-    <div class="feature-icon">📡</div>
-  </div>
-  <div class="feature-card">
-    <div class="feature-num">04 / Insight</div>
-    <h3 class="feature-title"><em>Transparent</em><br>alpha attribution.</h3>
-    <p class="feature-desc">Every trade logged, every P&L attributed. Understand exactly what's driving your returns with clear, real-time dashboards built for serious investors.</p>
-    <div class="feature-icon">📊</div>
+  <div class="detects-grid">
+    <div class="detect-card">
+      <div class="detect-tag">01 · Sweep</div>
+      <h3 class="detect-title">Liquidity<br><em>Sweeps</em></h3>
+      <p class="detect-desc">Wicks that push beyond swing highs or lows and close back inside range — a classic sign that smart money has hunted stops before reversing.</p>
+      <span class="detect-glyph">Liq. Sweep</span>
+    </div>
+    <div class="detect-card">
+      <div class="detect-tag">02 · Structure</div>
+      <h3 class="detect-title">Break of<br><em>Structure</em></h3>
+      <p class="detect-desc">Bullish BOS when price closes above the last swing high. Bearish BOS below the last swing low. Marks the confirmed shift in market intent.</p>
+      <span class="detect-glyph">BOS</span>
+    </div>
+    <div class="detect-card">
+      <div class="detect-tag">03 · Supply / Demand</div>
+      <h3 class="detect-title">Order<br><em>Blocks</em></h3>
+      <p class="detect-desc">The last opposing candle before a BOS. Highlighted on-chart and tracked as price returns to retest — one of the highest-probability entry zones in ICT.</p>
+      <span class="detect-glyph">OB</span>
+    </div>
+    <div class="detect-card">
+      <div class="detect-tag">04 · Imbalance</div>
+      <h3 class="detect-title">Fair Value<br><em>Gaps</em></h3>
+      <p class="detect-desc">Three-candle imbalance zones where price moved too fast to fill. Drawn as boxes in real time. Also detects Inverse FVGs when price re-enters a prior gap.</p>
+      <span class="detect-glyph">FVG / IFVG</span>
+    </div>
+    <div class="detect-card">
+      <div class="detect-tag">05 · Sessions</div>
+      <h3 class="detect-title">Kill<br><em>Zones</em></h3>
+      <p class="detect-desc">London, New York, and Asian session timing overlays. Setups formed during kill zones carry significantly more weight in the confluence score.</p>
+      <span class="detect-glyph">KZ</span>
+    </div>
+    <div class="detect-card">
+      <div class="detect-tag">06 · Context</div>
+      <h3 class="detect-title">Equilibrium<br><em>& Daily Bias</em></h3>
+      <p class="detect-desc">50% retracement of the last swing range marks equilibrium. Daily bias set by EMA trend direction — so every alert knows the direction of the bigger picture.</p>
+      <span class="detect-glyph">EQ / Bias</span>
+    </div>
   </div>
 </section>
 
 <!-- HOW IT WORKS -->
-<section class="how">
+<section class="how" id="how">
   <div class="section-label">How It Works</div>
   <div class="how-steps">
     <div class="step">
       <div class="step-num">01</div>
-      <h4 class="step-title">Connect your broker</h4>
-      <p class="step-desc">Link Interactive Brokers, Alpaca, or any supported brokerage via API in under two minutes. Your funds never leave your account.</p>
+      <h4 class="step-title">Add to your<br><em>TradingView</em> chart</h4>
+      <p class="step-desc">Paste the Pine Script into TradingView's editor and add it to any chart. Works on any market — forex, indices, crypto, stocks — and any timeframe.</p>
       <div class="step-connector"></div>
     </div>
     <div class="step">
       <div class="step-num">02</div>
-      <h4 class="step-title">Select a strategy</h4>
-      <p class="step-desc">Choose from a curated library of backtested strategies, or configure a custom ruleset. Set your risk parameters and capital allocation.</p>
+      <h4 class="step-title">It scans<br><em>in real time</em></h4>
+      <p class="step-desc">Aurum continuously monitors for all 8 confluence types. Each setup is scored 0–5+ based on how many align simultaneously on the same candle.</p>
       <div class="step-connector"></div>
     </div>
     <div class="step">
       <div class="step-num">03</div>
-      <h4 class="step-title">Automate & monitor</h4>
-      <p class="step-desc">Aurum executes every trade, manages every position, and sends you a clean daily summary. You stay in control — without lifting a finger.</p>
+      <h4 class="step-title">Get alerted<br>when <em>setups form</em></h4>
+      <p class="step-desc">When 3 or more confluences align, TradingView fires an alert. You decide whether to trade — Aurum makes sure you never miss a setup again.</p>
+    </div>
+  </div>
+</section>
+
+<!-- PRICING -->
+<section class="pricing" id="pricing">
+  <div class="section-label">Pricing</div>
+  <div class="pricing-grid" style="margin-top:60px;">
+    <div class="pricing-card">
+      <div class="pricing-tier">Tier 1</div>
+      <div class="pricing-name">Aurum <em>Signals</em></div>
+      <div class="pricing-tagline">The Pine Script indicator. Add it to TradingView<br>and start receiving confluence alerts.</div>
+      <div class="pricing-amount"><span class="currency">£</span>XX <span class="period">/ month</span></div>
+      <div class="pricing-alt">or £XXX one-time purchase</div>
+      <div class="pricing-divider"></div>
+      <ul class="pricing-features">
+        <li>Full Pine Script indicator source</li>
+        <li>All 8 confluence detectors</li>
+        <li>Real-time TradingView alerts</li>
+        <li>Any market, any timeframe</li>
+        <li>Setup guide included</li>
+      </ul>
+      <button class="pricing-cta secondary">Join Waitlist</button>
+    </div>
+    <div class="pricing-card featured">
+      <div class="pricing-tier">Tier 2</div>
+      <div class="pricing-name">Aurum <em>Autopilot</em></div>
+      <div class="pricing-tagline">Everything in Signals, plus the automation layer<br>that connects alerts directly to your broker.</div>
+      <div class="pricing-amount"><span class="currency">£</span>XX <span class="period">/ month</span></div>
+      <div class="pricing-alt">or £XXX one-time purchase</div>
+      <div class="pricing-divider"></div>
+      <ul class="pricing-features">
+        <li>Everything in Aurum Signals</li>
+        <li>Python automation codebase</li>
+        <li>IBKR &amp; Alpaca integration</li>
+        <li>Configurable risk parameters</li>
+        <li>Webhook → broker pipeline</li>
+        <li>Step-by-step setup guide</li>
+      </ul>
+      <button class="pricing-cta primary">Join Waitlist</button>
     </div>
   </div>
 </section>
 
 <!-- CTA -->
-<section class="cta-section">
+<section class="cta-section" id="access">
   <div class="cta-eyebrow">Early Access · Limited Cohort</div>
   <h2 class="cta-headline">
     The market never<br><em>waits.</em> Neither should you.
@@ -730,8 +970,23 @@
 
 <!-- FOOTER -->
 <footer>
-  <div class="footer-logo">Aurum</div>
-  <div class="footer-copy">© 2026 Aurum Capital Systems. For sophisticated investors only.</div>
+  <div class="footer-top">
+    <div class="footer-logo">Aurum</div>
+    <ul class="footer-links">
+      <li><a href="#">Privacy</a></li>
+      <li><a href="#">Terms</a></li>
+      <li><a href="#">Contact</a></li>
+    </ul>
+  </div>
+  <div class="footer-divider"></div>
+  <div class="footer-disclaimer">
+    <p>Aurum is a software tool, not financial advice. Past performance and backtesting results do not guarantee future returns.</p>
+    <p>Trading involves significant risk of financial loss. Only trade with money you can afford to lose.</p>
+    <p>Aurum does not manage funds or make trading decisions on your behalf. You are solely responsible for your own trades.</p>
+    <p>The automation features execute trades based on rules you configure. You are responsible for your risk settings and broker configuration.</p>
+    <p>Aurum is not regulated by the FCA, SEC, or any financial authority. It is software, sold as-is.</p>
+  </div>
+  <div class="footer-bottom">© 2026 Aurum · All rights reserved</div>
 </footer>
 
 <script>
@@ -739,29 +994,22 @@
   const cursor = document.getElementById('cursor');
   const ring = document.getElementById('cursor-ring');
   let mx = 0, my = 0, rx = 0, ry = 0;
-
   document.addEventListener('mousemove', e => {
     mx = e.clientX; my = e.clientY;
     cursor.style.left = mx - 4 + 'px';
-    cursor.style.top = my - 4 + 'px';
+    cursor.style.top  = my - 4 + 'px';
   });
-
   function animateRing() {
     rx += (mx - rx - 16) * 0.12;
     ry += (my - ry - 16) * 0.12;
     ring.style.left = rx + 'px';
-    ring.style.top = ry + 'px';
+    ring.style.top  = ry + 'px';
     requestAnimationFrame(animateRing);
   }
   animateRing();
-
   document.querySelectorAll('button, a').forEach(el => {
-    el.addEventListener('mouseenter', () => {
-      ring.style.width = '50px'; ring.style.height = '50px';
-    });
-    el.addEventListener('mouseleave', () => {
-      ring.style.width = '32px'; ring.style.height = '32px';
-    });
+    el.addEventListener('mouseenter', () => { ring.style.width = '50px'; ring.style.height = '50px'; });
+    el.addEventListener('mouseleave', () => { ring.style.width = '32px'; ring.style.height = '32px'; });
   });
 
   // Draw hero chart candles
@@ -770,7 +1018,7 @@
     if (!container) return;
     const rng = s => { s = Math.sin(s) * 43758.5453; return s - Math.floor(s); };
     const seed = 17;
-    for (let i = 0; i < 34; i++) {
+    for (let i = 0; i < 36; i++) {
       const r = rng(seed + i * 7.3);
       const up = r > 0.45;
       const bodyH = 10 + r * 32;
@@ -798,7 +1046,6 @@
     'https://natenxtthgkkrhxckpbd.supabase.co',
     'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im5hdGVueHR0aGdra3JoeGNrcGJkIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzQyNzkzNzksImV4cCI6MjA4OTg1NTM3OX0.EB0EhoFjYn_wASwnIkNJktRCAegnfFxe350rNgHvnHc'
   );
-
   document.getElementById('email-submit').addEventListener('click', async () => {
     const email = document.getElementById('email-input').value.trim();
     const msg = document.getElementById('email-msg');
